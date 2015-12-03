@@ -28,11 +28,15 @@ module Lexer
   end
   
   def Lexer.atomize(token)
-    begin return Integer(token)
-    rescue ArgumentError
-      return token.to_f if token.to_f.to_s == token
-      return token.to_sym
-    end    
+    if token == "="
+      return :eq?
+    else
+      begin return Integer(token)
+      rescue ArgumentError
+        return token.to_f if token.to_f.to_s == token
+        return token.to_sym
+      end
+    end      
   end
   
   def Lexer.eval(x, env, funcall = true)
