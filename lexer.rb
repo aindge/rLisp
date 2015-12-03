@@ -35,7 +35,7 @@ module Lexer
     end    
   end
   
-  def Lexer.eval(x, env)
+  def Lexer.eval(x, env, funcall = true)
     if x.nil?
       return nil
     elsif x.is_a?(Symbol) && !env.data[x].nil?
@@ -70,7 +70,14 @@ module Lexer
       (1...x.size).each do |i|
         args << eval(x[i], env)
       end
-      return lam.call(args)
+      begin return lam.call(args)
+      rescue LispArgCountError => e
+        if args.size == 0
+          return lam
+        else
+          raise LispSyntaxError, "Wrong number of arguments for #{x[0]} : " + e.message
+        end
+      end
     end
   end
   
@@ -81,7 +88,7 @@ module Lexer
       @env = env
     end
     def call(args)
-      raise LispArgCountError, "(" + args.size + " for " + @params.size + ")" unless args.size == @params.size
+      raise LispArgCountError, "Expected " + @params.size.to_s + ", got " + args.size.to_s + "." unless args.size == @params.size
       q = {}
       (0..@params.size).each do |i|
         q.merge!({@params[i] => args[i]})
