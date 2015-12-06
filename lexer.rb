@@ -58,15 +58,22 @@ module Lexer
       raise LispSyntaxError, "Too few arguments for cond." if x.size < 2
       exp = nil
       (1...x.size).each do |i|
-        if eval(x[i][0], env) != 0
+        if eval(x[i][0], env)
           exp = x[i][1]
           break;
         end
       end
       return eval(exp, env)
     elsif x[0] == :if
-      
-    elsif x[0] == :define
+      raise LispSyntaxError, "Too few arguments for if." if x.size != 4
+      exp = nil
+      if eval(x[1], env)
+        exp = x[2]
+      else
+        exp = x[3]
+      end
+      return eval(exp, env)
+    elsif x[0] == :define.
       env.new_var(x[1], eval(x[2], env))
       return
     elsif x[0] == :set!
