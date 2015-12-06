@@ -73,7 +73,7 @@ module Lexer
         exp = x[3]
       end
       return eval(exp, env)
-    elsif x[0] == :define.
+    elsif x[0] == :define
       env.new_var(x[1], eval(x[2], env))
       return
     elsif x[0] == :set!
