@@ -28,8 +28,12 @@ module Lexer
   end
   
   def Lexer.atomize(token)
-    if token == "="
+    if token == '='
       return :eq?
+    elsif token == '#t'
+      return true
+    elsif token == '#f'
+      return false
     else
       begin return Integer(token)
       rescue ArgumentError
@@ -49,7 +53,7 @@ module Lexer
     elsif x.size == 1 && !x[0].is_a?(Symbol)
       return eval(x[0], env)
     elsif x[0] == :else
-      return 1
+      return true
     elsif x[0] == :cond
       raise LispSyntaxError, "Too few arguments for cond." if x.size < 2
       exp = nil
@@ -60,6 +64,8 @@ module Lexer
         end
       end
       return eval(exp, env)
+    elsif x[0] == :if
+      
     elsif x[0] == :define
       env.new_var(x[1], eval(x[2], env))
       return
@@ -81,6 +87,8 @@ module Lexer
         else
           raise LispSyntaxError, "Wrong number of arguments for #{x[0]} : " + e.message
         end
+      rescue StandardError => e
+        puts "ERROR: In " + x[0].to_s + " : " + e.message
       end
     end
   end

@@ -21,17 +21,14 @@ module Environment
         :car => lambda{|x| x[0][0] },
         :cdr => lambda{|x| x[0][1] },
         :cons => lambda{|a| [a[0], a[1]]},
-        :cons? => lambda{|x| (x[0].is_a?(Array) and x[0].size == 2)? 1 : 0},
-        :list? => lambda{|x| (x[0].is_a?(Array) and x[0].size == 2)? 1 : 0},
-        :number? => lambda{|x| x[0].is_a?(Numeric)? 1 : 0},
-        :null? => lambda{|x| x[0].nil? ? 1 : 0},
-        :eq? => lambda{|a| (a[0] == a[1]) ? 1 : 0},
-        :not => lambda{|x| (x[0] == 0) ? 1 : 0},
-        :or => lambda{|a| ((a[0] == 1) or (a[1] == 1)) ? 1 : 0},
-        :and => lambda{|a| ((a[0] == 1) and (a[1] == 1)) ? 1 : 0},
-        :else => 1,
-        :t => 1,
-        :T => 1
+        :cons? => lambda{|x| (x[0].is_a?(Array) and x[0].size == 2)},
+        :list? => lambda{|x| (x[0].is_a?(Array) and x[0].size == 2)},
+        :number? => lambda{|x| x[0].is_a?(Numeric)},
+        :null? => lambda{|x| x[0].nil?},
+        :eq? => lambda{|a| (a[0] == a[1])},
+        :not => lambda{|x| (x[0].nil?)},
+        :or => lambda{|a| ((a[0]) or (a[1]))},
+        :and => lambda{|a| ((a[0]) and (a[1]))}
       })
     end
     
