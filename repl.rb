@@ -16,7 +16,7 @@ module Repl
       #Get query
       z = Readline.readline(prompt, true)
       case when z == ":quit" then return;
-           when z == ":vars" then puts env.foo;
+           when z == ":vars" then puts env.print_space;
            when z == ":help" then puts help;
            when z.split()[0] == ":run" then run_lisp(z.split()[1], env);
            when z.split()[0] == ":load" then load_ruby(z.split()[1], env);

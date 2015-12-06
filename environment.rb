@@ -1,9 +1,4 @@
 module Environment
-  class LispEnvironment
-    def initialize(env = {})
-      @env = env;
-    end
-  end
   
   class Vspace
     def initialize(data = {}, outer = nil)
@@ -41,7 +36,7 @@ module Environment
       @data.merge!({name.to_sym => value})
     end
     
-    def foo
+    def print_space
       z = ""
       @data.each do |key, value|
         if !value.is_a?(Proc) and !value.is_a?(Lexer::Lambda)
