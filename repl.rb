@@ -41,7 +41,7 @@ module Repl
       return nil
     end
     z = f.read
-    z.gsub("\n", " ");
+    z.gsub!("\n", " ");
     begin
       q = Lexer.eval(Lexer.parse(z), env) unless z == ""
       puts q unless ((q.is_a? Lexer::Lambda) or (q.is_a? Proc))
