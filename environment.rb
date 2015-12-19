@@ -50,7 +50,8 @@ module Environment
     
     def find(key)
       if @data[key].nil?
-        return outer.find(key)
+        return @outer.find(key) unless @outer.nil?
+        return nil
       else
         return self
       end

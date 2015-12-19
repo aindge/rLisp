@@ -22,7 +22,20 @@ module Repl
            when z.split()[0] == ":load" then load_ruby(z.split()[1], env);
       else begin
           q = Lexer.eval(Lexer.parse(z), env) unless z == ""
-          puts q unless ((q.is_a? Lexer::Lambda) or (q.is_a? Proc))
+          case when q.is_a?(Numeric) then puts "Number : " + q.to_s;
+               when (q.is_a?(TrueClass) or q.is_a?(FalseClass)) then puts "Boolean : " + q.to_s;
+               when q.is_a?(Symbol) then
+                 r = env.find(q)
+                 case when r.is_a?(Numeric) then puts q.to_s + " -> Number : " + r.to_s;
+                      when (r.is_a?(TrueClass) or r.is_a?(FalseClass)) then puts q.to_s + " -> Boolean : " + r.to_s;
+                      when r.nil? then puts "Symbol : " + q.to_s;
+                      else puts;
+                 end
+               when ((q.is_a? Lexer::Lambda) or (q.is_a? Proc)) then puts "Function";
+               else puts
+          end
+          
+          #puts q unless ((q.is_a? Lexer::Lambda) or (q.is_a? Proc))
         rescue Lexer::LispSyntaxError => e
           puts "ERROR: " + e.message
         end

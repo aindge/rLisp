@@ -75,9 +75,10 @@ module Lexer
       return eval(exp, env)
     elsif x[0] == :define
       env.new_var(x[1], eval(x[2], env))
-      return
+      return x[1]
     elsif x[0] == :set!
       env.find(x[1])[x[1]] = eval(x[2], env)
+      return x[1]
     elsif x[0] == :lambda
       return Lambda.new(x[1], x[2], env)
     else
